@@ -17,9 +17,13 @@ export default interface ServerConfiguration {
 
     /**
      * port to attach to. this must be undefined if the server value exists
-     * if both the server and the  
      */
     port?: number
+
+    /**
+     * port to attach to. this must be undefined if the server value exists
+     */
+    hostName?: string
 
     /**
      * the server to attach to, the port will be assumed from this server. this cannot be used with the port value

@@ -53,12 +53,28 @@ export class RealmObjectServer extends EventEmitter {
     }
 
     start(): Promise<RealmObjectServer> {
-        this._httpServer.
-        throw new Error('not implemented')
+        return new Promise((resolve, reject) => {
+            this._httpServer.listen(
+                this.configuration.port,
+                this.configuration.hostName, (err) => {
+                    if (err) {
+                        reject(err)
+                    }else {
+                        resolve(this)
+                    }
+                })
+        })
     }
 
     stop(): Promise<RealmObjectServer> {
-        throw new Error('not implemented')
+        return new Promise((resolve, reject) => {
+            this._httpServer.close((err) => {
+                if (err) { reject(err) }
+                else {
+                    resolve(this)
+                }
+            })
+        })
     }
 
     /**
