@@ -18,18 +18,17 @@ export interface SyncWorkerOptions {
     }
 }
 
+export interface SSLConfiguration {
+    key?: string
+    cert?: string
+    passphrase?: string
+    pfx?: string
+}
 
 
 export default interface ServerConfiguration {
-    /**
-     * the string of the public key
-     */
-    publicKey?: string
-
-    /**
-     * the string of the private key
-     */
-    privateKey?: string
+    
+    sslConfiguration?: SSLConfiguration
 
     /**
      * secret, a string that can be used to sign for encryption. useful for development

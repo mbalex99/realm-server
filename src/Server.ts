@@ -6,6 +6,8 @@ import * as Realm from 'realm';
 import Service from './Service'
 import ServerConfiguration from './ServerConfiguration'
 
+import usernamePassword from './usernamePassword'
+
 export class RealmObjectServer extends EventEmitter {
 
     private _httpServer: http.Server | https.Server
@@ -31,8 +33,11 @@ export class RealmObjectServer extends EventEmitter {
         if (configuration.port && configuration.server) {
             throw new Error('You cannot supply both a port and a configuration')
         }
-        if (configuration.port && configuration.privateKey && configuration.publicKey) {
-            this._httpServer = https.createServer((req, res) => {
+        if (!configuration.port && !configuration.server) {
+            configuration.port = 9080
+        }
+        if (!configuration.server && configuration.sslConfiguration) {
+            this._httpServer = https.createServer(configuration.sslConfiguration, (req, res) => {
                 const body = http.STATUS_CODES[426];
                 res.writeHead(426, {
                     'Content-Length': body.length,
@@ -50,6 +55,10 @@ export class RealmObjectServer extends EventEmitter {
                 res.end(body);
             });
         }
+        if (!configuration.authentication) {
+            configuration.authentication = usernamePassword
+        }
+        this._configuration = configuration
     }
 
     start(): Promise<RealmObjectServer> {
