@@ -1,15 +1,24 @@
 import * as http from 'http'
 import * as https from 'https'
 
+interface SyncWorkerOptions {
+    storageRootPath: string
+    host: string
+    port: number
+    mode: 'master_with_synchronous_slave' | 'master_with_asynchronous_slave' | 'slave'
+}
+
 export default interface ServerConfiguration {
     /**
      * the string of the public key
      */
     publicKey?: string
+    
     /**
      * the string of the private key
      */
     privateKey?: string
+
     /**
      * Accept only connections and requests at this path
      */
@@ -35,4 +44,6 @@ export default interface ServerConfiguration {
      * If omitted but NODE_ENV=production this will default to `'error'`
      */
     logLevel?: 'trace' | 'debug' | 'info' | 'warn' | 'error'
+
+    syncWorkerOptions?: SyncWorkerOptions
 }
