@@ -25,4 +25,10 @@ export default interface ServerConfiguration {
      * the server to attach to, the port will be assumed from this server. this cannot be used with the port value
      */
     server?: http.Server | https.Server
+
+    /**
+     * If omitted this will default to debug
+     * If omitted but NODE_ENV=production this will default to `'error'`
+     */
+    logLevel?: 'trace' | 'debug' | 'info' | 'warn' | 'error'
 }
