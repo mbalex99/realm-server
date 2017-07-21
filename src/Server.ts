@@ -8,7 +8,7 @@ import ServerConfiguration from './ServerConfiguration'
 
 export class RealmObjectServer extends EventEmitter {
 
-    httpServer: http.Server | https.Server
+    private _httpServer: http.Server | https.Server
     private _services: Service[] = []
     private _configuration: ServerConfiguration
 
@@ -32,7 +32,7 @@ export class RealmObjectServer extends EventEmitter {
             throw new Error('You cannot supply both a port and a configuration')
         }
         if (configuration.port && configuration.privateKey && configuration.publicKey) {
-            this.httpServer = https.createServer((req, res) => {
+            this._httpServer = https.createServer((req, res) => {
                 const body = http.STATUS_CODES[426];
                 res.writeHead(426, {
                     'Content-Length': body.length,
@@ -41,7 +41,7 @@ export class RealmObjectServer extends EventEmitter {
                 res.end(body);
             });
         } else {
-            this.httpServer = http.createServer((req, res) => {
+            this._httpServer = http.createServer((req, res) => {
                 const body = http.STATUS_CODES[426];
                 res.writeHead(426, {
                     'Content-Length': body.length,
@@ -53,6 +53,7 @@ export class RealmObjectServer extends EventEmitter {
     }
 
     start(): Promise<RealmObjectServer> {
+        this._httpServer.
         throw new Error('not implemented')
     }
 
