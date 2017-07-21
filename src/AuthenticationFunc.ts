@@ -1,0 +1,1 @@
+export type AuthenticationFunc = (body: any) => Promise<{userId: string, isAdmin: boolean}>

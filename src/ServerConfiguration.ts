@@ -1,23 +1,43 @@
 import * as http from 'http'
 import * as https from 'https'
+import { AuthenticationFunc } from './AuthenticationFunc';
 
-interface SyncWorkerOptions {
+export interface SyncWorkerOptions {
     storageRootPath: string
-    host: string
-    port: number
-    mode: 'master_with_synchronous_slave' | 'master_with_asynchronous_slave' | 'slave'
+    network: {
+        sync: {
+            host: string
+            port: number
+        }
+    }
+    backup: {
+        masterSlaveSharedSecret: string
+        masterAddress: string
+        masterPort: number
+        operatingMode: 'master_with_synchronous_slave' | 'master_with_asynchronous_slave' | 'slave'
+    }
 }
+
+
 
 export default interface ServerConfiguration {
     /**
      * the string of the public key
      */
     publicKey?: string
-    
+
     /**
      * the string of the private key
      */
     privateKey?: string
+
+    /**
+     * secret, a string that can be used to sign for encryption. useful for development
+     * highly discouraged in production 
+     * this cannot be used in conjusting with a privateKey
+     * @optional secret
+     */
+    secret?: string
 
     /**
      * Accept only connections and requests at this path
@@ -46,4 +66,6 @@ export default interface ServerConfiguration {
     logLevel?: 'trace' | 'debug' | 'info' | 'warn' | 'error'
 
     syncWorkerOptions?: SyncWorkerOptions
+
+    authentication?: AuthenticationFunc
 }
